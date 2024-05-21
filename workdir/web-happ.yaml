@@ -1,0 +1,7 @@
+---
+manifest_version: "1"
+name: reproduction
+ui:
+  bundled: ~
+happ_manifest:
+  bundled: "./reproduction.happ"
