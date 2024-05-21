@@ -1,4 +1,5 @@
 use std::sync::Arc;
+use std::time::Duration;
 
 use hdk::prelude::*;
 use holochain::prelude::dependencies::kitsune_p2p_types::config::{
@@ -54,7 +55,7 @@ async fn default_config_leads_to_test_success() {
         )
         .await;
 
-    await_consistency(120, vec![&alice, &bobbo]).await.unwrap();
+    std::thread::sleep(Duration::from_secs(30));
 
     let input = AddReferredForPostInput {
         base_post_hash: record_1.action_address().clone(),
@@ -64,6 +65,9 @@ async fn default_config_leads_to_test_success() {
         .call(&bob_zome, "add_referred_for_post", input)
         .await;
 
+    std::thread::sleep(Duration::from_secs(30));
+
+    // THIS WORKS, BECAUSE THE CREATE_LINK WAS ISSUED BY THE NODE WITH NORMAL GOSSIP ARC CLAMPING
     let input = RemoveReferredForPostInput {
         base_post_hash: record_1.action_address().clone(),
         target_referred: alice_pub_key.clone(),
